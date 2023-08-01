@@ -1,0 +1,32 @@
+/cart [GET, PUT]
+/cart/order [POST]
+/cart/add [POST/PUT]
+/user [GET, PUT/POST, DELETE]
+/user/register [POST]
+/user/sign_in [POST]
+/user/logout [POST/GET]
+/user/restore(reset password)[POST]
+/user/history [GET]
+/user/history/<id> [GET]
+/user/adress [GET, POST]
+/user/adress/<id> [GET, PUT, DELETE]
+/menu [GET]
+/menu/<cat name> [GET]
+/menu/<cat name>/<dish> [GET]
+/menu/<cat name>/<dish>/review [POST]
+/menu/search [GET/POST]
+
+сортування: /menu?order_by={ccal/price/rate/name}&dec=True
+/menu/<cat name>?order_by={ccal/price/rate/name}&dec=True
+
+
+#Пропозиції щодо ендпоінтів адмінки
+/admin [GET, PUT/POST, DELETE]
+/admin/dish_list [GET]
+/admin/dish_list/add [POST]
+/admin/dish_list/<dish_name> [GET, PUT, DELETE]
+/admin/current_orders [GET]
+/admin/current_orders/<order_id> [GET, PUT]
+/admin/category_list [GET, POST]
+/admin/category_list/<category_name> [GET, DELETE]
+/admin/search [GET/POST]
