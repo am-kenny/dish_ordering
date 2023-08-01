@@ -20,13 +20,16 @@
 /menu/<cat name>?order_by={ccal/price/rate/name}&dec=True
 
 
-#Пропозиції щодо ендпоінтів адмінки
+Admin endpoints proposal
 /admin [GET, PUT/POST, DELETE]
-/admin/dish_list [GET]
-/admin/dish_list/add [POST]
-/admin/dish_list/<dish_name> [GET, PUT, DELETE]
+/admin/dishes [GET]
+/admin/dishes/add [POST]
+/admin/dishes/<dish_name> [GET, PUT, DELETE]
 /admin/current_orders [GET]
 /admin/current_orders/<order_id> [GET, PUT]
 /admin/category_list [GET, POST]
 /admin/category_list/<category_name> [GET, DELETE]
-/admin/search [GET/POST]
+/admin/search [GET]
+
+Admin endpoints
+
