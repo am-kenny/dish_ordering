@@ -1,4 +1,5 @@
 from flask import Flask
+import sqlite3
 
 app = Flask(__name__)
 
@@ -65,7 +66,11 @@ def user_address(address_id: int):  # put application's code here
 
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():  # put application's code here
-    return "menu"
+    con = sqlite3.connect("dish.db")
+    cursor = con.cursor()
+    res = cursor.execute("SELECT * FROM dishes")
+    results = res.fetchall()
+    return results
 
 
 @app.route('/menu/<category_name>', methods=['GET'])
