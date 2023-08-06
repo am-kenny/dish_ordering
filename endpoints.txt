@@ -14,22 +14,19 @@
 /menu/<cat name> [GET]
 /menu/<cat name>/<dish> [GET]
 /menu/<cat name>/<dish>/review [POST]
-/menu/search [GET/POST]
+/menu/search [GET]
 
 сортування: /menu?order_by={ccal/price/rate/name}&dec=True
 /menu/<cat name>?order_by={ccal/price/rate/name}&dec=True
 
 
-Admin endpoints proposal
+Admin endpoints
 /admin [GET, PUT/POST, DELETE]
-/admin/dishes [GET]
-/admin/dishes/add [POST]
+/admin/dishes [GET, POST]
 /admin/dishes/<dish_name> [GET, PUT, DELETE]
 /admin/current_orders [GET]
 /admin/current_orders/<order_id> [GET, PUT]
-/admin/category_list [GET, POST]
-/admin/category_list/<category_name> [GET, DELETE]
+/admin/categories [GET, POST]
+/admin/categories/<category_name> [GET, POST, DELETE]
 /admin/search [GET]
-
-Admin endpoints
 
