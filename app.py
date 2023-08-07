@@ -5,13 +5,21 @@ app = Flask(__name__)
 
 # Temp
 user_id = 1
+admin_id = 2
+# "order_status" in "user_orders" table:
+# 0 - not placed (cart)
+# 1 - placed
+# 2 - ready for delivery
+# 3 - delivered
 
 
 @app.route('/cart', methods=['GET', 'POST'])
-def cart():  # put application's code here
+def cart():
     con = sqlite3.connect("dish.db")
     cursor = con.cursor()
-    res = cursor.execute(f"SELECT * FROM order WHERE user_id = {user_id}")
+    res = cursor.execute(f"SELECT * "
+                         f"FROM user_order "
+                         f"WHERE user_id = {user_id} AND order_status = 0")
     results = res.fetchall()
     return results
 
@@ -62,8 +70,8 @@ def user_orders_history():
     con = sqlite3.connect("dish.db")
     cursor = con.cursor()
     res = cursor.execute(f"SELECT * "
-                         f"FROM order "
-                         f"WHERE user_id = {user_id}")
+                         f"FROM user_order "
+                         f"WHERE user_id = {user_id} AND order_status <> 0")
     results = res.fetchall()
     return results
 
@@ -73,8 +81,8 @@ def user_order(order_id: int):
     con = sqlite3.connect("dish.db")
     cursor = con.cursor()
     res = cursor.execute(f"SELECT * "
-                         f"FROM order "
-                         f"WHERE user_id = {user_id}, id = {order_id}")
+                         f"FROM user_order "
+                         f"WHERE user_id = {user_id} AND id = {order_id}")
     results = res.fetchall()
     return results
 
@@ -115,10 +123,10 @@ def menu():
 def menu_category(category_name: str):
     con = sqlite3.connect("dish.db")
     cursor = con.cursor()
-    res = cursor.execute("SELECT * "
-                         "FROM dish "
-                         "JOIN category c on c.id = dish.category_id "
-                         "WHERE category_name = 'Pizza'")
+    res = cursor.execute(f"SELECT * "
+                         f"FROM dish "
+                         f"JOIN category c on c.id = dish.category_id "
+                         f"WHERE category_name = '{category_name}'")
     results = res.fetchall()
     return results
 
@@ -130,7 +138,7 @@ def menu_dish(category_name: str, dish_id: str):
     res = cursor.execute(f"SELECT * "
                          f"FROM dish "
                          f"JOIN category c on c.id = dish.category_id "
-                         f"WHERE category_name = 'Pizza' AND dish.id = '{dish_id}'")
+                         f"WHERE category_name = '{category_name}' AND dish.id = '{dish_id}'")
     results = res.fetchall()
     return results
 
@@ -148,37 +156,78 @@ def menu_search():  # put application's code here
 # Admin endpoints
 @app.route('/admin', methods=['GET', 'PUT', 'DELETE'])
 def admin_page():  # put application's code here
-    return "Admin"
+    con = sqlite3.connect("dish.db")
+    cursor = con.cursor()
+    res = cursor.execute(f"SELECT * "
+                         f"FROM user "
+                         f"WHERE id = {admin_id}")
+    results = res.fetchall()
+    return results
 
 
 @app.route('/admin/dishes', methods=['GET', 'POST'])
 def admin_dishes():  # put application's code here
-    return "Admin dishes"
+    con = sqlite3.connect("dish.db")
+    cursor = con.cursor()
+    res = cursor.execute("SELECT * "
+                         "FROM dish")
+    results = res.fetchall()
+    return results
 
 
-@app.route('/admin/dishes/<dish_name>', methods=['GET', 'PUT', 'DELETE'])
-def admin_dish(dish_name: str):  # put application's code here
-    return "Admin dish"
+@app.route('/admin/dishes/<dish_id>', methods=['GET', 'PUT', 'DELETE'])
+def admin_dish(dish_id: str):  # put application's code here
+    con = sqlite3.connect("dish.db")
+    cursor = con.cursor()
+    res = cursor.execute(f"SELECT * "
+                         f"FROM dish "
+                         f"WHERE dish.id = '{dish_id}'")
+    results = res.fetchall()
+    return results
 
 
 @app.route('/admin/current_orders', methods=['GET'])
 def admin_orders():  # put application's code here
-    return "Admin orders"
+    con = sqlite3.connect("dish.db")
+    cursor = con.cursor()
+    res = cursor.execute(f"SELECT * "
+                         f"FROM user_order "
+                         f"WHERE order_status = 1")
+    results = res.fetchall()
+    return results
 
 
 @app.route('/admin/current_orders/<order_id>', methods=['GET', 'PUT'])
 def admin_order(order_id: int):  # put application's code here
-    return "Admin order"
+    con = sqlite3.connect("dish.db")
+    cursor = con.cursor()
+    res = cursor.execute(f"SELECT * "
+                         f"FROM user_order "
+                         f"WHERE order_status = 1 AND id = {order_id}")
+    results = res.fetchall()
+    return results
 
 
 @app.route('/admin/categories', methods=['GET', 'POST'])
 def admin_categories():  # put application's code here
-    return "Admin categories"
+    con = sqlite3.connect("dish.db")
+    cursor = con.cursor()
+    res = cursor.execute("SELECT * "
+                         "FROM category")
+    results = res.fetchall()
+    return results
 
 
 @app.route('/admin/categories/<category_name>', methods=['GET', 'POST', 'DELETE'])
 def admin_category(category_name: str):  # put application's code here
-    return "Admin Category"
+    con = sqlite3.connect("dish.db")
+    cursor = con.cursor()
+    res = cursor.execute(f"SELECT * "
+                         f"FROM dish "
+                         f"JOIN category c on c.id = dish.category_id "
+                         f"WHERE category_name = '{category_name}'")
+    results = res.fetchall()
+    return results
 
 
 @app.route('/admin/search', methods=['GET'])
