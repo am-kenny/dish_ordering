@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ dish.category_name }}</h1>
+    <div class="container user_addresses">
+        <div class="content-holder orders">
+            <h2>{{ dish.dish_name }}</h2>
+            <hr class="line">
+            <p>Price: {{ dish.price }}</p>
+            <p>Kcal: {{ dish.kcal }}</p>
+            <p>Proteins: {{ dish.proteins }}</p>
+            <p>Fats: {{ dish.fats }}</p>
+            <p>Carbs: {{ dish.carbs }}</p>
+            <form method = "POST">
+                Please, rate this dish
+                <input type="text" name="rate" placeholder="Rate">
+                <input type = submit>
+            </form>
+            <a href="/menu/{{ dish.category_name }}"> Go back </a>
+        </div>
+    </div>
+{% endblock %}

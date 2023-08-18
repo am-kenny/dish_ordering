@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Sign in</title>
+</head>
+<body>
+    <header>
+
+    </header>
+    <main class="container user_page">
+        <h1 class="title">
+            Welcome!
+        </h1>
+        <div class="content-holder">
+            <form class="register__form" method = "POST">
+                <p>Please sign in</p>
+                <label>
+                    <input type="text" name="email" placeholder="E-Mail">
+                </label>
+                <label>
+                    <input type="password" name="password" placeholder="Password">
+                </label>
+                <input class="submit__button" type = submit>
+
+            </form>
+            <hr class="line">
+            <div class="register__redirect">
+                <a href="/user/register">Register</a>
+                <a href="/user/restore">Forgot password?</a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

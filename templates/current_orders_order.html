@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container user_page">
+        <div class="content-holder orders">
+            <h1>ORDER</h1>
+            <hr class="line">
+            <p>
+                Price: {{ order.order_price }}
+            </p>
+            <p>
+                {{ order.order_kcal }} kcal
+            </p>
+            <p>
+                Proteins: {{ order.order_proteins }}
+            </p>
+            <p>
+                Fats: {{ order.order_fats }}
+            </p>
+            <p>
+                Carbs: {{ order.order_carbs }}
+            </p>
+            <p>
+                Date: {{ order.order_date }}
+            </p>
+            <p>
+                Comment : {{ order.comment }}
+            </p>
+            <a href="/admin/current_orders"> Go back </a>
+        </div>
+    </div>
+{% endblock %}

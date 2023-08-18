@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container user_addresses">
+        {% for category in categories %}
+            <div class="content-holder orders">
+                <h1>{{ category.category_name }}</h1>
+                <hr class="line">
+                <a href="/menu/{{ category.category_name }}"> See more </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

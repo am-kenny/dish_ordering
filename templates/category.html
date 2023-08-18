@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ category[0].category_name }}</h1>
+    <div class="container user_addresses">
+
+        {% for dish in category %}
+            <div class="content-holder orders">
+                <h2>{{ dish.dish_name }}</h2>
+                <hr class="line">
+                <p>Price: {{ dish.price }}</p>
+                <p>Kcal: {{ dish.kcal }}</p>
+                <p>Proteins: {{ dish.proteins }}</p>
+                <p>Fats: {{ dish.fats }}</p>
+                <p>Carbs: {{ dish.carbs }}</p>
+                <a href="/menu/{{ dish.category_name }}/{{ dish.get("id") }}"> See more </a>
+
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

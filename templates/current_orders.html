@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container user_page">
+        {% for order in orders %}
+            <div class="content-holder orders">
+                <h1>ORDER {{ loop.index }}</h1>
+                <hr class="line">
+                <p>
+                    Price: {{ order.order_price }}
+                </p>
+                <p>
+                    {{ order.order_kcal }} kcal
+                </p>
+                <p>
+                    Proteins: {{ order.order_proteins }}
+                </p>
+                <p>
+                    Fats: {{ order.order_fats }}
+                </p>
+                <p>
+                    Carbs: {{ order.order_carbs }}
+                </p>
+                <p>
+                    Date: {{ order.order_date }}
+                </p>
+                <a href="/admin/current_orders/{{ order.id }}"> See more </a>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="/user"> Go back </a>
+{% endblock %}

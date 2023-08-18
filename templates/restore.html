@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container user_page">
+        <div class="content-holder">
+            <form class="register__form" method = "POST">
+                <p>Please enter your E-Mail</p>
+                <label>
+                    <input type="text" name="email" placeholder="E-Mail">
+                </label>
+                <input class="submit__button" type = submit>
+
+            </form>
+            <hr class="line">
+            <div class="register__redirect">
+                <a href="/user/sign_in">Back to sign in</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

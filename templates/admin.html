@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container user_page">
+        <div class="content-holder">
+            <h1 class="title">Admin</h1>
+            <p class="welcome">Welcome {{ user.name }}</p>
+            <ul class="user_page_list">
+                <li>
+                    <label>E-Mail: {{ user.email }} </label>
+                </li>
+                <li>
+                    <label>Phone: +{{ user.phone }} </label>
+                </li>
+                <li>
+                    <label>Telegram:  {{ user.telegram }} </label>
+                </li>
+                <li>
+                    <a href="/user/address"> Addresses</a>
+                </li>
+                <li>
+                    <a href="/user/orders"> Order history</a>
+                </li>
+                <li>
+                    <a href="/admin/dishes"> View all dishes</a>
+                </li>
+                <li>
+                    <a href="/admin/categories"> View all categories</a>
+                </li>
+                <li>
+                    <a style="color: darkred" href="/user/logout"> Log out</a>
+                </li>
+            </ul>
+        </div>
+        <a class="delete__button" href="/user/delete">Delete account</a>
+    </div>
+{% endblock %}

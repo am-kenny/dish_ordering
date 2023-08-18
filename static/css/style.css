@@ -1,0 +1,150 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 40px;
+    margin: 0;
+    padding: 30px;
+    background-color: midnightblue;
+}
+header a {
+    color: white;
+}
+
+.container {
+    padding: 30px 50px 30px 50px;
+}
+
+.content-holder {
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+    padding: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.user_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 40px;
+    margin: 0;
+    align-self: center;
+}
+
+.welcome {
+    font-weight: 500;
+    font-size: 30px;
+    margin-bottom: 80px;
+    margin-top: 18px;
+}
+
+
+.user_page_list {
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+    font-weight: 400;
+    list-style: None;
+    padding: 0;
+    margin: 0;
+    gap: 20px;
+}
+
+.user_page_list a {
+    color: black;
+    background-color: gold;
+    padding: 5px 15px 5px 15px;
+    text-decoration: none;
+    border-radius: 45px;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+.user_page_list .log_out {
+    color: darkred;
+    font-size: 25px;
+    border: none;
+    background-color: gold;
+    padding: 5px 15px 5px 15px;
+    text-decoration: none;
+    border-radius: 45px;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+.delete__button {
+    font-size: 25px;
+    font-weight: 400;
+    color: black;
+    padding: 5px 15px 5px 15px;
+    text-decoration: none;
+    background-color: red;
+    margin-top: 150px;
+    width: fit-content;
+    align-self: center;
+    border-radius: 45px;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+.register__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.submit__button {
+    font-size: 15px;
+    font-weight: 400;
+    color: black;
+    padding: 5px 15px 5px 15px;
+    text-decoration: none;
+    background-color: lightskyblue;
+    margin-top: 15px;
+    width: fit-content;
+    align-self: center;
+    border: none;
+    border-radius: 45px;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+.register__redirect {
+    display: flex;
+    gap: 5px;
+}
+
+.register__redirect a {
+    color: black;
+    width: fit-content;
+    align-self: center;
+    background-color: gold;
+    padding: 5px 15px 5px 15px;
+    margin-top: 5px;
+    text-decoration: none;
+    border-radius: 45px;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+
+}
+
+.line {
+    border-top: 2px solid black;
+    width: 100%
+}
+
+.orders p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.user_addresses {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

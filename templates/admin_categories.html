@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container user_addresses">
+        {% for category in categories %}
+            <div class="content-holder orders">
+                <h1>{{ category.category_name }}</h1>
+                <hr class="line">
+                <a href="/admin/categories/{{ category.category_name }}"> See more </a>
+            </div>
+        {% endfor %}
+        <form method = "POST">
+            <input type="text" name="category_name" placeholder="Category name">
+            <input type = submit>
+        </form>
+        <a href="/admin"> Go back </a>
+    </div>
+{% endblock %}

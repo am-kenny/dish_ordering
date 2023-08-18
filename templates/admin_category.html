@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ category[0].category_name }}</h1>
+    <div class="container user_addresses">
+
+        {% for dish in category %}
+            <div class="content-holder orders">
+                <h2>{{ dish.dish_name }}</h2>
+                <hr class="line">
+                <p>Price: {{ dish.price }}</p>
+                <p>Kcal: {{ dish.kcal }}</p>
+                <p>Proteins: {{ dish.proteins }}</p>
+                <p>Fats: {{ dish.fats }}</p>
+                <p>Carbs: {{ dish.carbs }}</p>
+                <a href="/admin/dishes/{{ dish.get("id") }}"> See more </a>
+
+            </div>
+        {% endfor %}
+        <form method = "POST">
+            <input type="text" name="dish_name" placeholder="Dish name">
+            <input type="text" name="price" placeholder="Price">
+            <input type="text" name="description" placeholder="Description">
+            <input type="text" name="photo" placeholder="Photo">
+            <input type="text" name="kcal" placeholder="kcal">
+            <input type="text" name="proteins" placeholder="Proteins">
+            <input type="text" name="fats" placeholder="Fats">
+            <input type="text" name="carbs" placeholder="Carbs">
+            <input type = submit>
+        </form>
+        <a href="/admin/categories">Go back</a>
+    </div>
+{% endblock %}
