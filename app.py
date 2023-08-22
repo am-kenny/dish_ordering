@@ -1,37 +1,43 @@
 from flask import Flask, request, session, render_template
 import sqlite3
 from functions import SQLiteDB
+import order
 
 app = Flask(__name__)
 app.secret_key = "my_secret_key"
 app.static_folder = 'static'
 
-# TODO TEMPLATES
 
-# "order_status" in "user_orders" table:
-# 0 - not placed (cart)
-# 1 - placed
-# 2 - ready for delivery
-# 3 - delivered
-
-
-@app.route('/cart', methods=['GET', 'POST'])  # TODO POST
+@app.route('/cart', methods=['GET', 'POST'])
 def cart():
     if session.get("user_id") is None:
         return app.redirect("/user/sign_in")
+    cart_id = order.user_cart(session.get("user_id"))
     with SQLiteDB("dish.db") as db:
-        cart_info = db.select_from("user_order", ["*"], {"user_id": session["user_id"], "order_status": "0"})
-    return cart_info
+        if request.method == 'POST':  # Change quantity, 0 = delete from order
+            data = request.form.to_dict()
+            order.change_quantity(session.get("user_id"), data.get("ordered_id"), data.get("quantity"))
+        cart_info = db.select_from("user_order", ["*"], {"id": cart_id})[0]
+        dishes = db.select_from("ordered_dish", ["dish.dish_name", "dish.price", "dish.kcal", "dish.proteins",
+                                                 "dish.fats", "dish.carbs", "dish_quantity", "dish.id as dish_id",
+                                                 "ordered_dish.id as ordered_id"],
+                                {"ordered_dish.order_id": cart_id}, "dish", ("id", "dish_id"))
+    return render_template("cart.html", cart_info=cart_info, dishes=dishes)
 
 
-@app.route('/cart/order', methods=['PUT'])  # TODO PUT
+@app.route('/cart/order', methods=['POST'])
 def cart_order():  # put application's code here
-    return "cart-order"
+    if request.method == 'POST':
+        comment = request.form.to_dict().get("comment")
+        order.post_order(session.get("user_id"), comment)
+    return app.redirect("/user")
 
 
-@app.route('/cart/add', methods=['PUT'])  # TODO PUT
-def cart_add():  # put application's code here
-    return "cart-add"
+@app.route('/cart/add', methods=['POST'])
+def cart_add():
+    form_data = request.form.to_dict()
+    order.add_to_cart(session.get("user_id"), form_data.get("dish_id"))
+    return app.redirect("/menu")
 
 
 @app.route('/user', methods=['GET', 'PUT', 'DELETE'])  # TODO PUT, DELETE
@@ -63,7 +69,7 @@ def user_register():
     return render_template("register.html")
 
 
-@app.route('/user/sign_in', methods=['GET', 'POST'])  # TODO TRY/EXCEPT block
+@app.route('/user/sign_in', methods=['GET', 'POST'])
 def user_sign_in():
     if session.get("user_id") is not None:
         return app.redirect("/user")
@@ -115,7 +121,9 @@ def user_orders_history():
     if session.get("user_id") is None:
         return app.redirect("/user/sign_in")
     with SQLiteDB("dish.db") as db:
-        orders = db.select_from("user_order", ["id", "order_price", "order_kcal", "order_proteins", "order_fats",     "order_carbs", "order_date"], {"user_id": session["user_id"], "order_status": 3})
+        orders = db.select_from("user_order", ["id", "order_price", "order_kcal", "order_proteins", "order_fats",
+                                               "order_carbs", "order_date"], {"user_id": session["user_id"],
+                                                                              "order_status": 3})
     return render_template("user_orders.html", orders=orders)
 
 
@@ -124,8 +132,10 @@ def user_order(order_id: int):
     if session.get("user_id") is None:
         return app.redirect("/user/sign_in")
     with SQLiteDB("dish.db") as db:
-        order = db.select_from("user_order", ["id", "order_price", "order_kcal", "order_proteins", "order_fats",     "order_carbs", "order_date"], {"user_id": session["user_id"], "id": order_id})[0]
-    return render_template("user_order.html", order=order)
+        this_order = db.select_from("user_order", ["id", "order_price", "order_kcal", "order_proteins", "order_fats",
+                                                   "order_carbs", "order_date"], {"user_id": session["user_id"],
+                                                                                  "id": order_id})[0]
+    return render_template("user_order.html", order=this_order)
 
 
 @app.route('/user/address', methods=['GET', 'POST'])
@@ -166,7 +176,10 @@ def menu_category(category_name: str):
         category = db.select_from("dish", ["dish_name", "category_name", "price", "kcal", "proteins", "fats", "carbs",
                                            "dish.id"], {"category_name": category_name, "is_available": "1"},
                                   "category", ("id", "category_id"))
-    return render_template("category.html", category=category)
+    if category:
+        return render_template("category.html", category=category)
+    else:
+        return app.redirect("/menu")
 
 
 @app.route('/menu/<category_name>/<dish_id>', methods=['GET'])
@@ -262,8 +275,8 @@ def admin_order(order_id: int):
     if session.get("user_type") == 0:
         return app.redirect('/menu', 302)
     with SQLiteDB("dish.db") as db:
-        order = db.select_from("user_order", ["*"], {"order_status": "1", "id": order_id})[0]
-    return render_template("current_orders_order.html", order=order)
+        this_order = db.select_from("user_order", ["*"], {"order_status": "1", "id": order_id})[0]
+    return render_template("current_orders_order.html", order=this_order)
 
 
 @app.route('/admin/categories', methods=['GET', 'POST'])

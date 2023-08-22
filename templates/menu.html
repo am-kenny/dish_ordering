@@ -3,11 +3,14 @@
 {% block content %}
     <div class="container user_addresses">
         {% for category in categories %}
-            <div class="content-holder orders">
+            <div class="content-holder menu">
                 <h1>{{ category.category_name }}</h1>
                 <hr class="line">
                 <a href="/menu/{{ category.category_name }}"> See more </a>
             </div>
         {% endfor %}
+    </div>
+    <div class="content-holder menu">
+        <a href="/cart"> Cart</a>
     </div>
 {% endblock %}

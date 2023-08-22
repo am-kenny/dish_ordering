@@ -32,7 +32,8 @@ class SQLiteDB:
         query = f"INSERT INTO {table_name} ({columns}) VALUES ({values})"
         self.sql_query(query)
 
-    def select_from(self, table_name: str, columns: list, where: dict = None, join_table: str = None, join_columns: tuple = None):
+    def select_from(self, table_name: str, columns: list, where: dict = None,
+                    join_table: str = None, join_columns: tuple = None):
         columns = ", ".join(columns)
         query = f"SELECT {columns} FROM {table_name}"
         if join_table:
@@ -42,3 +43,19 @@ class SQLiteDB:
             where = " WHERE " + " AND ".join([f"{key} = '{value}'" for key, value in where.items()])
             query += where
         return self.sql_query(query)
+
+    def update_data(self, table_name: str, params: dict, where: dict = None):
+        set_columns = ", ".join([f"{key} = '{value}'" for key, value in params.items()])
+        query = f"UPDATE {table_name} SET {set_columns}"
+        if where:
+            where = " WHERE " + " AND ".join([f"{key} = '{value}'" for key, value in where.items()])
+            query += where
+        return self.sql_query(query)
+
+    def delete_from(self, table_name: str, where: dict):
+        query = f"DELETE FROM {table_name} WHERE " + " AND ".join([f"{key} = '{value}'" for key, value in where.items()])
+        return self.sql_query(query)
+
+
+with SQLiteDB("dish.db") as db:
+    db.update_data("user_order", {"order_price": 200}, {"id": 4})

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container user_addresses">
+        <div class="content-holder orders">
+            <h2>Cart info</h2>
+            <hr class="line">
+            <p>Summ: {{ cart_info.order_price }}</p>
+            <p>Kcal: {{ cart_info.order_kcal }}</p>
+            <p>Proteins: {{ cart_info.order_proteins }}</p>
+            <p>Fats: {{ cart_info.order_fats }}</p>
+            <p>Carbs: {{ cart_info.order_carbs }}</p>
+        </div>
+
+
+        {% for dish in dishes %}
+            <div class="content-holder orders">
+                <h2>{{ dish.dish_name }}</h2>
+                <hr class="line">
+                <p>Price: {{ dish.price }}</p>
+                <p>Kcal: {{ dish.kcal }}</p>
+                <p>Proteins: {{ dish.proteins }}</p>
+                <p>Fats: {{ dish.fats }}</p>
+                <p>Carbs: {{ dish.carbs }}</p>
+                <p>Quantity: {{ dish.dish_quantity }}</p>
+                <hr class="line">
+                <form method="POST">
+                    <input type="hidden" name="ordered_id" value="{{ dish.ordered_id }}">
+                    <label for="quantity">Quantity (between 0 and 5):</label>
+                    <input type="number" name="quantity", min="0", max="5" value="{{ dish.dish_quantity }}">
+                    <input type="submit">
+                </form>
+            </div>
+        {% endfor %}
+        <div class="content-holder orders">
+            <h2>Want to order?</h2>
+            <hr class="line">
+            <form method="post" action="/cart/order">
+                <input type="text" name="comment" placeholder="Comment">
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -3,7 +3,7 @@
 {% block content %}
     <h1>{{ dish.category_name }}</h1>
     <div class="container user_addresses">
-        <div class="content-holder orders">
+        <div class="content-holder orders menu">
             <h2>{{ dish.dish_name }}</h2>
             <hr class="line">
             <p>Price: {{ dish.price }}</p>
@@ -13,11 +13,10 @@
             <p>Carbs: {{ dish.carbs }}</p>
             <a href="/menu/{{ dish.category_name }}/{{ dish.get("id") }}/review"> Rate </a>
             <a href="/menu/{{ dish.category_name }}"> Go back </a>
+            <form method="post" action="/cart/add">
+                <input type="hidden" name="dish_id" value="{{ dish.get("id") }}">
+                <input class="submit__button" type="submit" value="Add to cart">
+            </form>
         </div>
     </div>
-    <form method = "POST" >
-        Please, rate this dish
-        <input type="text" name="rate" placeholder="Rate">
-        <input type = submit>
-    </form>
 {% endblock %}
