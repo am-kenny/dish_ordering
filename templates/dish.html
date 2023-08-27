@@ -11,10 +11,10 @@
             <p>Proteins: {{ dish.proteins }}</p>
             <p>Fats: {{ dish.fats }}</p>
             <p>Carbs: {{ dish.carbs }}</p>
-            <a href="/menu/{{ dish.category_name }}/{{ dish.get("id") }}/review"> Rate </a>
-            <a href="/menu/{{ dish.category_name }}"> Go back </a>
+            <a href="/menu/{{ dish.category.category_name }}/{{ dish.id }}/review"> Rate </a>
+            <a href="/menu/{{ dish.category.category_name }}"> Go back </a>
             <form method="post" action="/cart/add">
-                <input type="hidden" name="dish_id" value="{{ dish.get("id") }}">
+                <input type="hidden" name="dish_id" value="{{ dish.id }}">
                 <input class="submit__button" type="submit" value="Add to cart">
             </form>
         </div>

@@ -13,21 +13,21 @@
         </div>
 
 
-        {% for dish in dishes %}
+        {% for item in dishes %}
             <div class="content-holder orders">
-                <h2>{{ dish.dish_name }}</h2>
+                <h2>{{ item.dish.dish_name }}</h2>
                 <hr class="line">
-                <p>Price: {{ dish.price }}</p>
-                <p>Kcal: {{ dish.kcal }}</p>
-                <p>Proteins: {{ dish.proteins }}</p>
-                <p>Fats: {{ dish.fats }}</p>
-                <p>Carbs: {{ dish.carbs }}</p>
-                <p>Quantity: {{ dish.dish_quantity }}</p>
+                <p>Price: {{ item.dish.price }}</p>
+                <p>Kcal: {{ item.dish.kcal }}</p>
+                <p>Proteins: {{ item.dish.proteins }}</p>
+                <p>Fats: {{ item.dish.fats }}</p>
+                <p>Carbs: {{ item.dish.carbs }}</p>
+                <p>Quantity: {{ item.dish_quantity }}</p>
                 <hr class="line">
                 <form method="POST">
-                    <input type="hidden" name="ordered_id" value="{{ dish.ordered_id }}">
+                    <input type="hidden" name="ordered_id" value="{{ item.id }}">
                     <label for="quantity">Quantity (between 0 and 5):</label>
-                    <input type="number" name="quantity", min="0", max="5" value="{{ dish.dish_quantity }}">
+                    <input type="number" name="quantity", min="0", max="5" value="{{ item.dish_quantity }}">
                     <input type="submit">
                 </form>
             </div>

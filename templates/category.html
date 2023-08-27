@@ -13,7 +13,7 @@
                 <p>Proteins: {{ dish.proteins }}</p>
                 <p>Fats: {{ dish.fats }}</p>
                 <p>Carbs: {{ dish.carbs }}</p>
-                <a href="/menu/{{ dish.category_name }}/{{ dish.get("id") }}"> See more </a>
+                <a href="/menu/{{ dish.category.category_name }}/{{ dish.id }}"> See more </a>
 
             </div>
         {% endfor %}
