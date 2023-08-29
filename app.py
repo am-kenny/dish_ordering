@@ -8,7 +8,7 @@ app.secret_key = "my_secret_key"
 app.static_folder = 'static'
 
 
-@app.route('/cart', methods=['GET', 'POST'])  # TODO Alchemy
+@app.route('/cart', methods=['GET', 'POST'])
 def cart():
     if session.get("user_id") is None:
         return app.redirect("/user/sign_in")
@@ -22,7 +22,7 @@ def cart():
     return render_template("cart.html", cart_info=cart_info, dishes=dishes)
 
 
-@app.route('/cart/order', methods=['POST'])  # TODO Alchemy
+@app.route('/cart/order', methods=['POST'])
 def cart_order():  # put application's code here
     if request.method == 'POST':
         comment = request.form.to_dict().get("comment")
@@ -31,7 +31,7 @@ def cart_order():  # put application's code here
     return app.redirect("/user")
 
 
-@app.route('/cart/add', methods=['POST'])  # TODO Alchemy
+@app.route('/cart/add', methods=['POST'])
 def cart_add():
     data = request.form.to_dict()
     order.add_to_cart(session.get("cart_id"), data.get("dish_id"))

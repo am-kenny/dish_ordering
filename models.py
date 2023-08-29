@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import relationship
 
 import database
@@ -7,14 +7,14 @@ from database import Base
 
 class Address(Base):
     __tablename__ = "address"
-    id = Column(Integer, primary_key=True)
-    town = Column(String(50))
-    street = Column(String(50))
-    building = Column(String(10))
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    town = Column(String(50), nullable=False)
+    street = Column(String(50), nullable=False)
+    building = Column(String(10), nullable=False)
     apartment = Column(String(10))
     block = Column(Integer)
     floor = Column(Integer)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 
     user = relationship("User", back_populates="address")
     user_order = relationship("UserOrder", back_populates="address")
@@ -31,8 +31,8 @@ class Address(Base):
 
 class Category(Base):
     __tablename__ = "category"
-    id = Column(Integer, primary_key=True)
-    category_name = Column(String(50), unique=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    category_name = Column(String(50), unique=True, nullable=False)
 
     dish = relationship("Dish", back_populates="category")
 
@@ -43,16 +43,16 @@ class Category(Base):
 class Dish(Base):
     __tablename__ = "dish"
     id = Column(String(120), primary_key=True, unique=True)
-    dish_name = Column(String(50), unique=True)
-    price = Column(Integer)
-    description = Column(String(255))
-    is_available = Column(Integer)
-    category_id = Column(Integer, ForeignKey("category.id"))
-    photo = Column(String(120))
-    kcal = Column(Integer)
-    proteins = Column(Integer)
-    fats = Column(Integer)
-    carbs = Column(Integer)
+    dish_name = Column(String(50), unique=True, nullable=False)
+    price = Column(Integer, nullable=False)
+    description = Column(String(255), nullable=False)
+    is_available = Column(Integer, nullable=False)
+    category_id = Column(Integer, ForeignKey("category.id"), nullable=False)
+    photo = Column(String(120), nullable=False)
+    kcal = Column(Integer, nullable=False)
+    proteins = Column(Integer, nullable=False)
+    fats = Column(Integer, nullable=False)
+    carbs = Column(Integer, nullable=False)
 
     category = relationship("Category", back_populates="dish")
     dish_rate = relationship("DishRate", back_populates="dish")
@@ -74,10 +74,10 @@ class Dish(Base):
 
 class DishRate(Base):
     __tablename__ = "dish_rate"
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("user.id"))
-    dish_id = Column(String(120), ForeignKey("dish.id"))
-    rate = Column(Integer)
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    dish_id = Column(String(120), ForeignKey("dish.id"), nullable=False)
+    rate = Column(Integer, nullable=False)
 
     dish = relationship("Dish", back_populates="dish_rate")
 
@@ -89,10 +89,10 @@ class DishRate(Base):
 
 class OrderedDish(Base):
     __tablename__ = "ordered_dish"
-    id = Column(Integer, primary_key=True)
-    dish_id = Column(String(120), ForeignKey("dish.id"))
-    dish_quantity = Column(Integer)
-    order_id = Column(Integer, ForeignKey("user_order.id"))
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    dish_id = Column(String(120), ForeignKey("dish.id"), nullable=False)
+    dish_quantity = Column(Integer, nullable=False)
+    order_id = Column(Integer, ForeignKey("user_order.id"), nullable=False)
 
     dish = relationship("Dish", back_populates="ordered_dish")
     user_order = relationship("UserOrder", back_populates="ordered_dish")
@@ -105,8 +105,9 @@ class OrderedDish(Base):
 
 class Status(Base):
     __tablename__ = "status"
-    id = Column(Integer, primary_key=True)
-    status_name = Column(String(50))
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    status_name = Column(String(50), nullable=False)
+
     user_order = relationship("UserOrder", back_populates="status")
 
     def __init__(self, status_name=None):
@@ -115,13 +116,14 @@ class Status(Base):
 
 class User(Base):
     __tablename__ = "user"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50))
-    phone = Column(Integer, unique=True)
-    email = Column(String(120), unique=True)
-    password = Column(String(120))
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    name = Column(String(50), nullable=False)
+    phone = Column(Integer, unique=True, nullable=False)
+    email = Column(String(120), unique=True, nullable=False)
+    password = Column(String(120), nullable=False)
     telegram = Column(String(120), unique=True)
-    user_type = Column(Integer, ForeignKey("user_type.id"))
+    user_type = Column(Integer, ForeignKey("user_type.id"), nullable=False)
+    is_verified = Column(Boolean, default=False)
 
     address = relationship("Address", back_populates="user")
     user_order = relationship("UserOrder", back_populates="user")
@@ -138,18 +140,19 @@ class User(Base):
 
 class UserOrder(Base):
     __tablename__ = "user_order"
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("user.id"))
-    address_id = Column(Integer, ForeignKey("address.id"))
-    order_price = Column(Integer)
-    order_kcal = Column(Integer)
-    order_proteins = Column(Integer)
-    order_fats = Column(Integer)
-    order_carbs = Column(Integer)
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    address_id = Column(Integer, ForeignKey("address.id"), nullable=False)
+    order_price = Column(Integer, nullable=False)
+    order_kcal = Column(Integer, nullable=False)
+    order_proteins = Column(Integer, nullable=False)
+    order_fats = Column(Integer, nullable=False)
+    order_carbs = Column(Integer, nullable=False)
     comment = Column(String(255))
     order_date = Column(String(120))
     order_rate = Column(Integer)
-    order_status = Column(Integer, ForeignKey("status.id"))
+    order_status = Column(Integer, ForeignKey("status.id"), nullable=False)
+    update_date = Column(DateTime)
 
     address = relationship("Address", back_populates="user_order")
     user = relationship("User", back_populates="user_order")
@@ -176,9 +179,23 @@ class UserOrder(Base):
 
 class UserType(Base):
     __tablename__ = "user_type"
-    id = Column(Integer, primary_key=True)
-    type_name = Column(String(120), unique=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    type_name = Column(String(120), unique=True, nullable=False)
+
     user = relationship("User", back_populates="user_type_rel")
 
     def __init__(self, type_name=None):
         self.type_name = type_name
+
+
+class EmailVerification(Base):
+    __tablename__ = "email_verification"
+    id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    code = Column(String, unique=True, nullable=False)
+    expire_at = Column(DateTime, nullable=False)
+
+    def __init__(self, user_id=None, code=None, expire_at=None):
+        self.user_id = user_id
+        self.code = code
+        self.expire_at = expire_at
