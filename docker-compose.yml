@@ -1,0 +1,8 @@
+services:
+  web_app:
+    build: .
+    ports:
+      - "5000:5000"
+
+# to create container use:
+# docker-compose up -d

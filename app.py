@@ -8,6 +8,11 @@ app.secret_key = "my_secret_key"
 app.static_folder = 'static'
 
 
+@app.route('/', methods=['GET'])
+def start_page():
+    return app.redirect("/menu")
+
+
 @app.route('/cart', methods=['GET', 'POST'])
 def cart():
     if session.get("user_id") is None:
@@ -24,6 +29,8 @@ def cart():
 
 @app.route('/cart/order', methods=['POST'])
 def cart_order():  # put application's code here
+    if session.get("user_id") is None:
+        return app.redirect("/user/sign_in")
     if request.method == 'POST':
         comment = request.form.to_dict().get("comment")
         order.post_order(session.get("cart_id"), comment)
@@ -33,6 +40,8 @@ def cart_order():  # put application's code here
 
 @app.route('/cart/add', methods=['POST'])
 def cart_add():
+    if session.get("user_id") is None:
+        return app.redirect("/user/sign_in")
     data = request.form.to_dict()
     order.add_to_cart(session.get("cart_id"), data.get("dish_id"))
     return app.redirect("/menu")
@@ -347,4 +356,4 @@ def admin_search():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", debug=True)
