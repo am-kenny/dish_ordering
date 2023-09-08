@@ -4,5 +4,22 @@ services:
     ports:
       - "5000:5000"
 
+  rebbit_mq:
+    hostname: rebbit_mq
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    env_file: .env
+
+  celery_worker:
+    build: .
+    command: celery -A celery_tasks.celery worker --loglevel=info --pool=solo
+    environment:
+      - rabbit_host=rebbit_mq
+
+
+
+
 # to create container use:
 # docker-compose up -d

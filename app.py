@@ -2,6 +2,8 @@ from flask import Flask, request, session, render_template
 import order
 from models import *
 import database
+from celery_tasks import send_email
+
 
 app = Flask(__name__)
 app.secret_key = "my_secret_key"
@@ -28,13 +30,14 @@ def cart():
 
 
 @app.route('/cart/order', methods=['POST'])
-def cart_order():  # put application's code here
+def cart_order():
     if session.get("user_id") is None:
         return app.redirect("/user/sign_in")
     if request.method == 'POST':
         comment = request.form.to_dict().get("comment")
         order.post_order(session.get("cart_id"), comment)
         session["cart_id"] = order.user_cart(session["user_id"])
+        send_email.delay(session.get("email"))
     return app.redirect("/user")
 
 
@@ -74,6 +77,7 @@ def user_register():  # Alchemy
         session["user_id"] = current_user.id
         session["user_name"] = current_user.name
         session["user_type"] = current_user.user_type
+        session["email"] = current_user.email
         session["cart_id"] = order.user_cart(session["user_id"])
         return app.redirect('/menu', 302)
     return render_template("register.html")
@@ -92,6 +96,7 @@ def user_sign_in():  # Alchemy
             session["user_id"] = current_user.id
             session["user_name"] = current_user.name
             session["user_type"] = current_user.user_type
+            session["email"] = current_user.email
             session["cart_id"] = order.user_cart(session["user_id"])
             return app.redirect('/menu', 302)
     return render_template("sign_in.html")
@@ -106,6 +111,7 @@ def user_logout():
         session.pop("user_name", default=None)
         session.pop("user_type", default=None)
         session.pop("cart_id", default=None)
+        session.pop("email", default=None)
         return render_template("sign_in.html")
     return render_template("logout.html")
 
